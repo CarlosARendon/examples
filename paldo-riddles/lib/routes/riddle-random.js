@@ -1,15 +1,21 @@
 'use strict';
 
-const Boom = require('@hapi/boom');
+//const Boom = require('@hapi/boom');
+const Data = require('../data');
 
 module.exports = {
     method: 'get',
-    path: '/riddle/random',
+    path: '/riddle-random',
     options: {
         tags: ['api'],
-        handler: async (request) => {
+        handler: (request) => {
 
-            const { Riddles } = request.models();
+            const randomIndex = Math.floor(Math.random() * Data.riddles.length);
+            const randomRiddle = Data.riddles[randomIndex];
+
+            return `${randomRiddle.slug} — ${randomRiddle.question}`;
+
+            /* const { Riddles } = request.models();
             const count = await Riddles.query().resultSize();
 
             if (count === 0) {
@@ -19,7 +25,7 @@ module.exports = {
             const randomOffset = Math.floor(Math.random() * count);
             const randomRiddle = await Riddles.query().offset(randomOffset).first();
 
-            return randomRiddle;
+            return randomRiddle; */
         }
     }
 };
